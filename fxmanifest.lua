@@ -5,6 +5,7 @@ name "zLogsSytem"
 description "Logs Systems for FiveM"
 author "Sayzx"
 version "1.0"
+lua54 'yes'
 
 shared_scripts {
 	'shared/*.lua'

@@ -144,16 +144,37 @@ CreateThread(function()
             CauseHash = GetPedCauseOfDeath(GetPlayerPed(PlayerId()))
             Weapon = WeaponNames[tostring(DeathCauseHash)]
             if killer == -1 then
-                RaisonDeLaMort = "Mort naturelle ou PNJ"
+                RaisonDeLaMort = "Mort naturelle ( Chute ) ou PNJ"
             elseif killer == PlayerId() then
                 RaisonDeLaMort = 'Tué par ses propres mains'
-            else
+			elseif killer == GetEntityModel(GetPedSourceOfDeath(GetPlayerPed(PlayerId()))) == 0x20796A82 then
+				RaisonDeLaMort = "Mort de chute"
+			elseif killer == GetEntityModel(GetPedSourceOfDeath(GetPlayerPed(PlayerId()))) == 0x2C509634 then
+				RaisonDeLaMort = "Mort de chute"
+				-- ou alors si le joueur est mort par arme a feu
+			elseif CauseHash == 0x92A27487 or CauseHash == 0x5FC3C11 then
+				RaisonDeLaMort = "Tué par balles" 
+			elseif CauseHash == 0x5EA16D74 then
+				RaisonDeLaMort = "Tué par explosif"
+			elseif CauseHash == 0x8D7335B9 then
+				RaisonDeLaMort = "Tué par explosif"
+			else
+
+
                 RaisonDeLaMort = "Tué par " .. killername
             end
             Weapon = GetHashKey(Weapon)
-            TriggerServerEvent('zLogs:SendToDiscord', 'Mort', 'Mort', 'Le Joueur :' .. GetPlayerName(PlayerId()) .. ' est mort de la cause suivante : ' .. RaisonDeLaMort, nil, zLogs.WebHookAll)
-            print('Le Joueur :' .. GetPlayerName(PlayerId()) .. ' est mort de la cause suivante : ' .. RaisonDeLaMort)
+            TriggerServerEvent('zLogs:SendToDiscord', 'Mort', 'Mort', 'Le Joueur :' .. GetPlayerName(PlayerId()) .. ' est mort de la cause suivante : ' .. RaisonDeLaMort, nil, zLogs.WebHookMort)
             return
         end
      end
+end)
+
+-- quand joueur va rentrer dans un véhicule
+
+AddEventHandler('playerSpawned', function()
+	local veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+	if veh ~= 0 then
+		TriggerServerEvent('zLogs:SendToDiscord', 'Spawn', 'Spawn', 'Le Joueur :' .. GetPlayerName(PlayerId()) .. ' est rentré dans un véhicule', nil, zLogs.WebHookVeh)
+	end
 end)

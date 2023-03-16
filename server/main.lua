@@ -122,7 +122,7 @@ AddEventHandler('playerDropped', function(reason)
         ["xbl"] = xbl,
         ["liveid"] = liveid,
     }
-    DiscordWebHook("zLogs", "🔑 Player Disconnect", "**Name:** " .. name .. "\n**Steam:** " .. steam .. "\n**License:** " .. license .. "\n**Discord:** " .. discord .. "\n**Xbox Live:** " .. xbl .. "\n**Live ID:** " .. liveid .. "\n**Reason:** " .. reason, 'https://media.tenor.com/hxjDbU2kmasAAAAM/discord.gif', zLogs.WebHookAll)
+    DiscordWebHook("zLogs", "🔑 Player Disconnect", "**Name:** " .. name .. "\n**Steam:** " .. steam .. "\n**License:** " .. license .. "\n**Discord:** " .. discord .. "\n**Xbox Live:** " .. xbl .. "\n**Live ID:** " .. liveid .. "\n**Reason:** " .. reason, 'https://media.tenor.com/hxjDbU2kmasAAAAM/discord.gif', zLogs.WebHookOff)
 end)
 
 
@@ -161,7 +161,7 @@ AddEventHandler('chatMessage', function(source, name, message)
         ["xbl"] = xbl,
         ["liveid"] = liveid,
     }
-    DiscordWebHook("zLogs", "⛏ Chat Message", "**Name:** " .. name .. "\n**Steam:** " .. steam .. "\n**License:** " .. license .. "\n**Discord:** " .. discord .. "\n**Xbox Live:** " .. xbl .. "\n**Live ID:** " .. liveid .. "\n\n**Message:** " .. message, nil, zLogs.WebHookAll)
+    DiscordWebHook("zLogs", "⛏ Chat Message", "**Name:** " .. name .. "\n**Steam:** " .. steam .. "\n**License:** " .. license .. "\n**Discord:** " .. discord .. "\n**Xbox Live:** " .. xbl .. "\n**Live ID:** " .. liveid .. "\n\n**Message:** " .. message, nil, zLogs.WebHookChat)
 end)
 
 AddEventHandler('playerSpawned', function(spawn)
@@ -209,3 +209,19 @@ AddEventHandler('onResourceStart' , function(resource)
     local ressource = resource
     DiscordWebHook("zLogs", "📱 Resource Started", "**Resource:** `" .. resource..'`', nil, zLogs.WebHookLogs)
 end)
+
+AddEventHandler('onResourceStop' , function(resource)
+    local ressource = resource
+    DiscordWebHook("zLogs", "📱 Resource Stopped", "**Resource:** `" .. resource..'`', nil, zLogs.WebHookLogs)
+end)
+
+AddEventHandler('onResourceError' , function(resource, err)
+    local ressource = resource
+    DiscordWebHook("zLogs", "📱 Resource Error", "**Resource:** `" .. resource..'`\n**Error:** `'..err..'`', nil, zLogs.WebHookLogs)
+end)
+
+AddEventHandler('onResourceChangeState' , function(resource, oldState, newState)
+    local ressource = resource
+    DiscordWebHook("zLogs", "📱 Resource State Changed", "**Resource:** `" .. resource..'`\n**Old State:** `'..oldState..'`\n**New State:** `'..newState..'`', nil, zLogs.WebHookLogs)
+end)
+
